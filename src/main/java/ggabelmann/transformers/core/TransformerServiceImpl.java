@@ -1,5 +1,7 @@
 package ggabelmann.transformers.core;
 
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,12 +15,13 @@ import java.util.Set;
  * An implementation of Service.
  * All methods are synchronized to simulate an ACID datastore.
  */
-public class ServiceImpl implements Service {
+@Service
+public class TransformerServiceImpl implements TransformerService {
 	
 	private int nextId;
 	private final List<Transformer> transformers;
 	
-	public ServiceImpl() {
+	public TransformerServiceImpl() {
 		this.nextId = 0;
 		this.transformers = new ArrayList<>();
 	}

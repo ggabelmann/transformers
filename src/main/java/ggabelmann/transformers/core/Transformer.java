@@ -40,17 +40,6 @@ public class Transformer implements Comparable<Transformer> {
 	
 	/**
 	 * Construct a Transformer without an ID.
-	 *
-	 * @param name
-	 * @param type
-	 * @param strength
-	 * @param intelligence
-	 * @param speed
-	 * @param endurance
-	 * @param rank
-	 * @param courage
-	 * @param firepower
-	 * @param skill
 	 */
 	public Transformer(
 			final String name,
@@ -78,9 +67,6 @@ public class Transformer implements Comparable<Transformer> {
 	
 	/**
 	 * Construct a Transformer with an ID.
-	 *
-	 * @param id
-	 * @param transformer
 	 */
 	Transformer(final Optional<Integer> id, final Transformer transformer) {
 			this.id = Objects.requireNonNull(id);

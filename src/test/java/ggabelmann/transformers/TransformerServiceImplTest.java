@@ -1,8 +1,8 @@
 package ggabelmann.transformers;
 
 import ggabelmann.transformers.core.BattleResult;
-import ggabelmann.transformers.core.Service;
-import ggabelmann.transformers.core.ServiceImpl;
+import ggabelmann.transformers.core.TransformerService;
+import ggabelmann.transformers.core.TransformerServiceImpl;
 import ggabelmann.transformers.core.TotalDestructionException;
 import ggabelmann.transformers.core.Transformer;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ServiceImplTest {
+public class TransformerServiceImplTest {
 	
 	private final Transformer auto1 = new Transformer("Auto 1", Transformer.Type.AUTOBOT, 1, 2, 3, 4, 5, 6, 7, 8);
 	private final Transformer autoLowSkill = new Transformer("Auto Low Skill", Transformer.Type.AUTOBOT, 1, 2, 3, 4, 5, 6, 7, 5);
@@ -34,7 +34,7 @@ public class ServiceImplTest {
 	
 	@Test
 	public void testAdd() {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		service.add(auto1);
 		service.add(decep1);
 		
@@ -45,14 +45,14 @@ public class ServiceImplTest {
 	
 	@Test
 	public void testRemoveNonExistent() {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		
 		assertFalse(service.remove(123));
 	}
 	
 	@Test
 	public void testRemoveExistent() {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		service.add(auto1);
 		
 		assertTrue(service.remove(0));
@@ -61,20 +61,20 @@ public class ServiceImplTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testUpdateWithId() {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		final int id = service.add(auto1);
 		service.update(id, service.findTransformerById(id).get());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testUpdateNonExistent() {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		service.update(0, auto1);
 	}
 	
 	@Test
 	public void testUpdateExistent() {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		final int id = service.add(auto1);
 		service.update(id, decep1);
 		
@@ -84,7 +84,7 @@ public class ServiceImplTest {
 	
 	@Test(expected = TotalDestructionException.class)
 	public void testTotalDestruction() throws TotalDestructionException {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		service.add(optimus);
 		service.add(predaking);
 		
@@ -93,7 +93,7 @@ public class ServiceImplTest {
 	
 	@Test
 	public void testOptimusWins() throws TotalDestructionException {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		final int autoId = service.add(optimus);
 		final int decepId = service.add(decep1);
 		
@@ -106,7 +106,7 @@ public class ServiceImplTest {
 	
 	@Test
 	public void testPredakingWins() throws TotalDestructionException {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		final int decepId = service.add(predaking);
 		final int autoId = service.add(auto1);
 		
@@ -119,7 +119,7 @@ public class ServiceImplTest {
 	
 	@Test
 	public void testBothHaveEqualRating() throws TotalDestructionException {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		final int autoId = service.add(auto1);
 		final int decepId = service.add(decep1);
 		
@@ -133,7 +133,7 @@ public class ServiceImplTest {
 	
 	@Test
 	public void testHighRatingWins() throws TotalDestructionException {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		final int autoId = service.add(auto1);
 		final int decepId = service.add(decepLow);
 		
@@ -146,7 +146,7 @@ public class ServiceImplTest {
 	
 	@Test
 	public void testHighCourageAndStrengthWins() throws TotalDestructionException {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		final int autoId = service.add(autoHighCourageAndStrength);
 		final int decepId = service.add(decepLow);
 		
@@ -159,7 +159,7 @@ public class ServiceImplTest {
 	
 	@Test
 	public void testHighSkillWins() throws TotalDestructionException {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		final int autoId = service.add(autoLowSkill);
 		final int decepId = service.add(decep1);
 		
@@ -183,7 +183,7 @@ public class ServiceImplTest {
 	 */
 	@Test
 	public void testSampleBattle() throws TotalDestructionException {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		final int blueId = service.add(bluestreak);
 		final int hubId = service.add(hubcap);
 		final int soundId = service.add(soundwave);
@@ -199,7 +199,7 @@ public class ServiceImplTest {
 	
 	@Test
 	public void testTwoBattles() throws TotalDestructionException {
-		final Service service = new ServiceImpl();
+		final TransformerService service = new TransformerServiceImpl();
 		final int blueId = service.add(bluestreak);
 		final int hubId = service.add(hubcap);
 		final int decepId = service.add(decep1);
