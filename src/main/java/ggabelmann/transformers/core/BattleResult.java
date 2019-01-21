@@ -1,7 +1,11 @@
 package ggabelmann.transformers.core;
 
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * Holds the results of a battle between Transformers.
+ */
 public class BattleResult {
 	
 	private final int numBattles;
@@ -11,9 +15,9 @@ public class BattleResult {
 	
 	BattleResult(final int numBattles, final Transformer.Type winningTeam, final List<Transformer> winningTeamSurvivors, final List<Transformer> losingTeamSurvivors) {
 		this.numBattles = numBattles;
-		this.winningTeam = winningTeam;
-		this.winningTeamSurvivors = winningTeamSurvivors;
-		this.losingTeamSurvivors = losingTeamSurvivors;
+		this.winningTeam = Objects.requireNonNull(winningTeam);
+		this.winningTeamSurvivors = Objects.requireNonNull(winningTeamSurvivors);
+		this.losingTeamSurvivors = Objects.requireNonNull(losingTeamSurvivors);
 	}
 	
 	public int getNumBattles() {

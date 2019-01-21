@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * An implementation of Service.
+ * An implementation of the TransformerService.
  * All methods are synchronized to simulate an ACID datastore.
  */
 @Service
@@ -44,18 +44,20 @@ public class TransformerServiceImpl implements TransformerService {
 		final List<Transformer> autobots = new ArrayList<>();
 		final List<Transformer> decepticons = new ArrayList<>();
 		
+		// Find the transformers and sort them into two groups.
 		for (final int id : ids) {
-			if (transformers.get(id).getType() == Transformer.Type.AUTOBOT) {
-				autobots.add(transformers.get(id));
+			final Transformer transformer = findTransformerById(id).get();
+			if (transformer.getType() == Transformer.Type.AUTOBOT) {
+				autobots.add(transformer);
 			}
 			else {
-				decepticons.add(transformers.get(id));
+				decepticons.add(transformer);
 			}
 		}
-
 		Collections.sort(autobots);
 		Collections.sort(decepticons);
 		
+		// The autobots and decepticons fight pair-wise.
 		final List<Transformer> destroyedAutobots = new ArrayList<>();
 		final List<Transformer> destroyedDecepticons = new ArrayList<>();
 		int numBattles = 0;
@@ -71,10 +73,11 @@ public class TransformerServiceImpl implements TransformerService {
 			}
 		}
 		
+		// Remove the destroyed transformers from the system.
 		for (final Transformer destroyed : destroyedAutobots) {
 			remove(destroyed.getId().get());
 			for (final ListIterator<Transformer> li = autobots.listIterator(); li.hasNext(); ) {
-				if (li.next().getId().get() == destroyed.getId().get()) {
+				if (li.next().getId().equals(destroyed.getId())) {
 					li.remove();
 				}
 			}
@@ -82,7 +85,7 @@ public class TransformerServiceImpl implements TransformerService {
 		for (final Transformer destroyed : destroyedDecepticons) {
 			remove(destroyed.getId().get());
 			for (final ListIterator<Transformer> li = decepticons.listIterator(); li.hasNext(); ) {
-				if (li.next().getId().get() == destroyed.getId().get()) {
+				if (li.next().getId().equals(destroyed.getId())) {
 					li.remove();
 				}
 			}
@@ -96,6 +99,14 @@ public class TransformerServiceImpl implements TransformerService {
 		}
 	}
 	
+	/**
+	 * Determine who are destroyed.
+	 *
+	 * @param autobot Cannot be null.
+	 * @param decepticon Cannot be null.
+	 * @return The list.
+	 * @throws TotalDestructionException
+	 */
 	private List<Transformer> losers(final Transformer autobot, final Transformer decepticon) throws TotalDestructionException {
 		if (autobot.getName().equals(Transformer.OPTIMUS_PRIME) && decepticon.getName().equals(Transformer.PREDAKING)) {
 			throw new TotalDestructionException();

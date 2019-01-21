@@ -118,6 +118,24 @@ public class TransformerServiceImplTest {
 	}
 	
 	@Test
+	public void testTwoAutobots() throws TotalDestructionException {
+		final TransformerService service = new TransformerServiceImpl();
+		final int autoId1 = service.add(auto1);
+		final int autoId2 = service.add(autoLowSkill);
+		
+		final BattleResult battleResult = service.battle(new HashSet<>(Arrays.asList(autoId1, autoId2)));
+		assertEquals(0, battleResult.getNumBattles());
+		assertEquals(Transformer.Type.AUTOBOT, battleResult.getWinningTeam());
+		assertEquals(0, battleResult.getLosingTeamSurvivors().size());
+		assertTrue(service.findTransformerById(autoId1).isPresent());
+		assertTrue(service.findTransformerById(autoId2).isPresent());
+	}
+	
+	/**
+	 * If both bots have the same rating then both are destroyed.
+	 * If both sides lose the same number of bots then consider the Autobots as the winners, since they're the good guys.
+	 */
+	@Test
 	public void testBothHaveEqualRating() throws TotalDestructionException {
 		final TransformerService service = new TransformerServiceImpl();
 		final int autoId = service.add(auto1);

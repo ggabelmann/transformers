@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
+ * Represents a Transformer.
  * Immutable.
  */
 public class Transformer implements Comparable<Transformer> {
@@ -66,7 +67,8 @@ public class Transformer implements Comparable<Transformer> {
 	}
 	
 	/**
-	 * Construct a Transformer with an ID.
+	 * Construct a Transformer with an optional ID.
+	 * Note that it is package-private.
 	 */
 	Transformer(final Optional<Integer> id, final Transformer transformer) {
 			this.id = Objects.requireNonNull(id);
@@ -144,9 +146,6 @@ public class Transformer implements Comparable<Transformer> {
 	
 	/**
 	 * Sorts by rank, from high to low.
-	 *
-	 * @param o
-	 * @return
 	 */
 	@Override
 	public int compareTo(final Transformer o) {
